@@ -1,9 +1,10 @@
+import { motion } from 'framer-motion'
 
 const UserProfile = () => {
    return (
       <div className="dropdown dropdown-end flex items-center">
-         <div tabIndex={0} class="avatar online placeholder">
-            <div class="flex items-center bg-neutral-focus w-12 rounded-full text-white cursor-pointer">
+         <div tabIndex={0} className="avatar online placeholder">
+            <div className="flex items-center bg-neutral-focus w-12 rounded-full text-white cursor-pointer">
                <span>MX</span>
             </div>
          </div>
