@@ -1,11 +1,17 @@
 import { useState } from "react"
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { getMultySearch } from "../features/search/searchMiddleware"
 
 const SearchInput = () => {
    const [search, setSearch] = useState('')
+   const dispatch = useDispatch()
+   const navigate = useNavigate()
 
    const handleSubmit = (event) => {
       event.preventDefault()
-      console.log(search)
+      dispatch(getMultySearch({page: 1, query: search}))
+      navigate(`/search?query=${search}&page=1`)
    }
 
    return (
