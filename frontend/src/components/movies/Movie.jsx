@@ -1,17 +1,18 @@
 import { format } from 'date-fns'
-import { motion } from 'framer-motion'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Movie = ({ movie }) => {
-   const release = format(new Date(movie.release_date + ' 00:00:00'), 'MMM d, y')
-   const [isMovieHover, setIsMovieHover] = useState(false)
+   const navigate = useNavigate();
+   const release = format(new Date(movie.release_date + ' 00:00:00'), 'MMM d, y');
+   const [isMovieHover, setIsMovieHover] = useState(false);
 
    return (
-      <motion.div
-         whileHover={{ scale: 1.05 }}
-         className='w-40 min-w-[160px] flex flex-col rounded-lg'
+      <div
+         className='w-40 min-w-[160px] flex flex-col rounded-lg hover:scale-105 cursor-pointer transition'
          onMouseEnter={() => setIsMovieHover(true)}
          onMouseLeave={() => setIsMovieHover(false)}
+         onClick={() => navigate(`/movie/${movie.id}`)}
       >  
          <div className='flex relative'>
             <img
@@ -29,7 +30,7 @@ const Movie = ({ movie }) => {
          </div>
          <h3 className="font-normal text-slate-100 mt-1">{movie.title}</h3>
          <p className='font-sans text-sm text-gray-300 font-light'>{release}</p>
-      </motion.div>
+      </div>
    )
 }
 
