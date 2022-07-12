@@ -11,7 +11,7 @@ const PeopleDetails = () => {
 
    if (loading) {
       return (
-         <SpinnerLoading />
+         <SpinnerLoading title='Loading' className='min-h-screen' />
       )
    }
 
