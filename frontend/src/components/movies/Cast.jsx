@@ -20,6 +20,9 @@ const Cast = ({ cast }) => {
                      className="w-ful h-32 object-cover object-center" 
                      src={actor.profile_path ? `https://image.tmdb.org/t/p/w500${actor.profile_path}`: defaultImg} 
                      alt="actor" 
+                     onError={({ currentTarget }) => {
+                        currentTarget.src = defaultImg
+                     }}
                   />
                   <div className="p-2">
                      <h2 className="card-title text-gray-200 font-normal text-base leading-normal">{actor.name}</h2>
