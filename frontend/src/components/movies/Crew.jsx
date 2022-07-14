@@ -39,7 +39,6 @@ const Crew = ({ crew }) => {
             </table>
          </div>
    ))
-   console.log("here")
 
    return (
       <div className="w-full">
