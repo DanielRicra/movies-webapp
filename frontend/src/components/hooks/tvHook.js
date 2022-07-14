@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import { findTvDetails } from '../../services/tvService'
+import { findTvDetails, findTvVideos } from '../../services/tvService'
 
 export const useTv = (tvId) => {
    const [tv, setTv] = useState({})
    const [loading, setLoading] = useState(false)
+   const [videos, setVideos] = useState([])
 
    useEffect(() => {
       setLoading(true)
@@ -14,8 +15,16 @@ export const useTv = (tvId) => {
          })   
          .catch(error => {
             console.log(error)
-         })     
+         })   
+      
+      findTvVideos(tvId)
+         .then(response => {
+            setVideos(response.data.results)            
+         })
+         .catch(error => {
+            console.log(error)
+         })
    }, [])
 
-   return {tv, loading}
+   return {tv, videos, loading}
 }
