@@ -1,7 +1,9 @@
+import { useNavigate } from 'react-router-dom'
 
 import defaultImg from '../../assets/default-user-image.png'
 
 const Cast = ({ cast }) => {
+   const navigate = useNavigate()
 
    return (
       <>
@@ -10,8 +12,9 @@ const Cast = ({ cast }) => {
          {
             cast.map(actor => (
                <div 
-                  className="card card-compact w-32 bg-base-100 shadow-xl border border-gray-600" 
+                  className="card card-compact w-32 bg-base-100 shadow-xl cursor-pointer border border-gray-600" 
                   key={(Math.random() * 1000) + actor.id}
+                  onClick={() => navigate(`/people/${actor.id}`)}
                >
                   <img 
                      className="w-ful h-32 object-cover object-center" 
