@@ -10,6 +10,7 @@ const SearchInput = () => {
 
    const handleSubmit = (event) => {
       event.preventDefault()
+      if (search.trim() === '') return
       dispatch(getMultySearch({page: 1, query: search}))
       navigate(`/search?query=${search}&page=1`)
    }
