@@ -23,12 +23,12 @@ const Movie = ({ movie }) => {
             {isMovieHover && (
                <div className='absolute bottom-1 right-2 text-gray-200 flex items-center leading-none bg-opacity-80 bg-neutral p-1 rounded-lg'>
                   <span className='mask mask-star bg-yellow-300 w-4 h-4 mr-1 mb-[2px]'></span>
-                  <p className='leading-none font-mono'>{movie.vote_average}/</p>
+                  <p className='leading-none font-mono'>{movie.vote_average}/10-</p>
                   <span className='text-xs'>{movie.vote_count}</span>
                </div>
             )}
          </div>
-         <h3 className="font-normal text-slate-100 mt-1">{movie.title}</h3>
+         <h3 className="font-normal text-slate-100 mt-1">{movie.title || movie.name}</h3>
          <p className='font-sans text-sm text-gray-300 font-light'>{release}</p>
       </div>
    )
