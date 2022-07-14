@@ -1,37 +1,22 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { getCast, getCrew, getLoading } from '../../features/castAndCrew/castCrewSlice'
-import { getMovieCrewAndCast } from '../../features/castAndCrew/castAndCrewMiddleware'
 import Cast from './Cast'
 import Crew from './Crew'
-import { getMovieDetails } from '../../features/movie/movieMiddleware'
-import { movieDetails, movieLoading } from '../../features/movie/movieSlice'
+import { useMovie } from '../hooks/movieHook'
 
 const MovieDetail = () => {
-   const dispatch = useDispatch()
    const { id: movieId } = useParams()
-   const cast = useSelector(getCast)
-   const crew = useSelector(getCrew)
-   const loading = useSelector(getLoading)
-   const movie = useSelector(movieDetails)
-   const detailsLoading = useSelector(movieLoading)
-
-   useEffect(() => {
-      dispatch(getMovieCrewAndCast(movieId))
-      dispatch(getMovieDetails(movieId))
-   }, [])
+   const { movie, videos, castAndCrew, movieLoading, castCrewLoading } = useMovie(movieId)
 
    return (
-      <div className='flex-1 w-full px-3 mx-auto container md:max-w-2xl md:mx-auto lg:mx-auto lg:max-w-4xl py-20 flex flex-col items-start'>
-
-         {detailsLoading === 'loading' ? (
+      <div className='flex-1 w-full px-3 mx-auto md:px-4 md:mx-auto lg:mx-auto lg:max-w-4xl py-20 flex flex-col items-start'>
+         {movieLoading ? (
             <div className='w-full text-center'>
                <div className="lds-ring">
                   <div></div><div></div><div></div><div></div>
                </div>
             </div>
-         ):(
+         ) : (
             <div className='w-full'>
                <div className='flex justify-between w-full'>
                   <div className=''>
@@ -59,20 +44,26 @@ const MovieDetail = () => {
                      </div>
                   </div>
                </div>
-               <div className='flex my-2'>
-                  <img 
-                     className='max max-h-[440px] object-cover object-center'
-                     src={`https://image.tmdb.org/t/p/w500${movie?.poster_path}`} 
-                     alt="movie poster" 
+               <div className='flex my-2 flex-col md:flex-row'>
+                  <img
+                     className='md:max-h-[440px] max-w-[260px] object-cover object-center'
+                     src={`https://image.tmdb.org/t/p/w500${movie?.poster_path}`}
+                     alt="movie poster"
                   />
-                  <div className='flex-1 bg-slate-500'>
-                     <p>Trailer</p>
+                  <div className='flex-1 flex w-full'>
+                     <iframe
+                        className="aspect-video w-full"
+                        src={`https://www.youtube.com/embed/${videos ? videos[0]?.key : ''}`}
+                        title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen={true}
+                     >
+                     </iframe>
                   </div>
                </div>
                <div className=''>
                   <div className='flex gap-2 w-full pb-2'>
                      {movie.genres?.map(genre => (
-                        <span 
+                        <span
                            key={genre.id}
                            className='border-2 text-xs border-gray-400 rounded-2xl px-2 py-1 text-gray-300'
                         >
@@ -88,18 +79,16 @@ const MovieDetail = () => {
             </div>
          )}
 
-         {loading === 'loading'  && (
+         {castCrewLoading ? (
             <div className='w-full text-center'>
                <div className="lds-ring">
                   <div></div><div></div><div></div><div></div>
                </div>
             </div>
-         )}
-
-         {loading === 'succeeded' && (
+         ) : (
             <>
-               <Cast cast={cast} />
-               <Crew crew={crew} />
+               <Cast cast={castAndCrew.cast || []} />
+               <Crew crew={castAndCrew.crew || []} />
             </>
          )}
       </div>
